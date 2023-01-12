@@ -22,8 +22,8 @@ export default {
 	width: 600px;
 	height: 200px;
 	background-color: #080808;
-	margin-top: 15px;
 	border-radius: 5px;
+	margin-bottom: 15px;
 }
 
 #card:hover {

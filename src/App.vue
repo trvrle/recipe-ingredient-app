@@ -1,6 +1,10 @@
 <template>
-	<NavigationBar id="navbar"/>
-	<Main></Main>
+	<v-app>
+		<v-main id="vuetify-main">
+			<NavigationBar id="navbar"/>
+			<Main></Main>
+		</v-main>
+	</v-app>
 </template>
 
 <script>
@@ -24,16 +28,19 @@ export default {
 
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 	color: #e0e0e0;
+}
+
+#vuetify-main {
+	width: 100vw;
+	background-color: #212121;
+	display: flex;
+	justify-content: center;
 }
 
 body { 
 	margin: 0; 
 	overflow-y: scroll;
 	overflow-x: hidden;
-	background-color: #212121;
 }
 </style>

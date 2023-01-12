@@ -1,24 +1,26 @@
 <template>
 	<div id="main">
-		<RecipeList>
-
-		</RecipeList>
+		<IngredientSearch />
+		<RecipeList/>
 	</div>
 </template>
 
 <script>
 import RecipeList from "./RecipeList.vue";
+import IngredientSearch from "./IngredientSearch.vue";
 
 export default {
 	name: "Main",
 	components: {
-		RecipeList
+		RecipeList,
+		IngredientSearch
 	}
 }
 </script>
 
 <style>
 #main {
+	min-width: 600px;
 	top: 50px;
 	position: absolute;
 }

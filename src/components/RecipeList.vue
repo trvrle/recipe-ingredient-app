@@ -12,11 +12,6 @@ import RecipeCard from './RecipeCard.vue';
 import { useRecipeStore } from "@/store/index"
 import { storeToRefs } from 'pinia'
 
-// const API_KEY = "e08d347420b548169eb033e623bdfb88";
-// const url = "https://api.spoonacular.com/recipes/random?";
-
-// getRandomRecipes()
-
 export default {
 	name: "RecipeList",
 	components: {
