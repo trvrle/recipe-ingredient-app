@@ -32,15 +32,15 @@ export default {
 }
 
 #vuetify-main {
-	width: 100vw;
-	background-color: #212121;
 	display: flex;
 	justify-content: center;
+	background-color: #212121;
 }
 
 body { 
 	margin: 0; 
 	overflow-y: scroll;
 	overflow-x: hidden;
+	background-color: #212121;
 }
 </style>
