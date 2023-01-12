@@ -3,7 +3,10 @@
 		<img :src="recipe.image"/>
 		<div id="info">
 			<h2>{{ recipe.title }}</h2>
-			<p>{{  }}</p>
+			<div id="icon-info">
+				<v-icon v-if=recipe.vegetarian id="leaf" icon="mdi-leaf"></v-icon>
+				<v-icon v-if=recipe.veryPopular id="thumb" icon="mdi-thumb-up"></v-icon>
+			</div>
 		</div>
 	</div>
 </template>
@@ -38,6 +41,7 @@ img {
 }
 
 #info {
+	width: 100%;
 	margin-left: 10px;
 	display: flex;
 	flex-direction: column;
@@ -46,4 +50,21 @@ img {
 h2 {
 	margin: 0;
 }
+
+#icon-info {
+	height: 100%;
+	display: flex;
+	justify-content: end;
+	align-items: flex-end;
+}
+
+#thumb {
+	margin-right: 5px;
+	color: lightgray;
+}
+
+#leaf {
+	color: green;
+}
+
 </style>
