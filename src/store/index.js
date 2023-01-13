@@ -4,7 +4,8 @@ const API_KEY = "e08d347420b548169eb033e623bdfb88";
 
 export const useRecipeStore = defineStore("recipe", {
 	state: () => ({
-		recipes: []
+		recipes: [],
+		autocompleteIngredients: []
 	}),
 	actions: {
 		async fetchRandomRecipes() {
@@ -18,11 +19,32 @@ export const useRecipeStore = defineStore("recipe", {
 				.then((response) => response.json())
 				.then((data) => this.recipes = data.recipes)
 				.catch((error) => console.log(error));
+		},
+		async fetchAutocompleteIngredients(text) {
+			if (text === '') {
+				this.autocompleteIngredients = [];
+				return;
+			}
+
+			const request = "https://api.spoonacular.com/food/ingredients/autocomplete?" +
+				new URLSearchParams({
+					apiKey: API_KEY,
+					number: 5,
+					query: text
+				});
+
+			await fetch(request)
+				.then((response) => response.json())
+				.then((data) => this.autocompleteIngredients = data)
+				.catch((error) => console.log(error));
 		}
 	},
 	getters: {
 		getRecipes(state) { 
 			return state.recipes;
+		},
+		getAutocompleteIngredients(state) {
+			return state.autocompleteIngredients;
 		}
 	}
 });

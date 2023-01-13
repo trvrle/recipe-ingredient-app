@@ -8,24 +8,36 @@
 			multiple
 			:items="ingredients"
 			label="Search for ingredients..."
+			@update:search="onChange"
+			item-title="name"
+			no-filter
+			hide-no-data
 		>
 		</v-autocomplete>
 	</div>
 </template>
 
 <script>
+import { useRecipeStore } from "@/store/index"
+import { storeToRefs } from "pinia";
+
 export default {
 	name: "IngredientSearch",
 	data () {
       return {
         model: null,
-        ingredients: [
-          'Apple', 'Chocolate', 'Orange', 'Strawberry'
-        ],
+        ingredients: [],
       }
     },
 	mounted() {
-		console.log(this.states)
+		const { getAutocompleteIngredients } = storeToRefs(useRecipeStore());
+		this.ingredients = getAutocompleteIngredients;
+	},
+	methods: {
+		onChange(text) {
+			const { fetchAutocompleteIngredients } = useRecipeStore();
+			fetchAutocompleteIngredients(text);
+		}
 	}
 }
 </script>
