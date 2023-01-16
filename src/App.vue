@@ -39,8 +39,6 @@ export default {
 
 body { 
 	margin: 0; 
-	overflow-y: scroll;
-	overflow-x: hidden;
 	background-color: #212121;
 }
 </style>
