@@ -37,6 +37,29 @@ export const useRecipeStore = defineStore("recipe", {
 				.then((response) => response.json())
 				.then((data) => this.autocompleteIngredients = data)
 				.catch((error) => console.log(error));
+		},
+		async fetchFilteredRecipes(query) {
+			if (Object.keys(query).length === 0) {
+				this.fetchRandomRecipes();
+				return;
+			}
+
+			let ingredients = '';
+			for (const key in query) {
+				ingredients += query[key] + ","
+			}
+
+			const request = "https://api.spoonacular.com/recipes/findByIngredients?" +
+				new URLSearchParams({
+					apiKey: API_KEY,
+					ingredients: ingredients
+				});
+
+			await fetch(request)
+				.then((response) => response.json())
+				.then((data) => this.recipes = data)
+				.catch((error) => console.log(error));
+			
 		}
 	},
 	getters: {
@@ -44,7 +67,9 @@ export const useRecipeStore = defineStore("recipe", {
 			return state.recipes;
 		},
 		getAutocompleteIngredients(state) {
-			return state.autocompleteIngredients;
+			const appendImageUrl = image => "https://spoonacular.com/cdn/ingredients_100x100/" + image
+			const capitalizeFirstLetter = word => word.charAt(0).toUpperCase() + word.slice(1)
+			return state.autocompleteIngredients.map(o => ({name: capitalizeFirstLetter(o.name), image: appendImageUrl(o.image) } ))
 		}
 	}
 });

@@ -8,11 +8,28 @@
 			multiple
 			:items="ingredients"
 			label="Search for ingredients..."
-			@update:search="onChange"
+			@update:search="onSearch"
+			@update:model-value="onChange"
 			item-title="name"
+			item-value="name"
 			no-filter
 			hide-no-data
 		>
+			<template v-slot:chip="{ props, item }">
+				<v-chip
+					v-bind="props"
+					:prepend-avatar="item.raw.avatar"
+					:text="item.raw.name"
+				></v-chip>
+			</template>
+
+			<template v-slot:item="{ props, item }">
+				<v-list-item
+					v-bind="props"
+					:prepend-avatar="item?.raw?.image"
+					:title="item?.raw?.name"
+				></v-list-item>
+			</template>
 		</v-autocomplete>
 	</div>
 </template>
@@ -34,9 +51,13 @@ export default {
 		this.ingredients = getAutocompleteIngredients;
 	},
 	methods: {
-		onChange(text) {
+		onSearch(text) {
 			const { fetchAutocompleteIngredients } = useRecipeStore();
 			fetchAutocompleteIngredients(text);
+		},
+		onChange() {
+			const { fetchFilteredRecipes } = useRecipeStore();
+			fetchFilteredRecipes(this.model);
 		}
 	}
 }
