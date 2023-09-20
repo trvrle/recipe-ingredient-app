@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
 
-const API_KEY = "e08d347420b548169eb033e623bdfb88";
-
 export const useRecipeStore = defineStore("recipe", {
   state: () => ({
     recipes: [],
@@ -9,16 +7,11 @@ export const useRecipeStore = defineStore("recipe", {
   }),
   actions: {
     async fetchRandomRecipes() {
-      const request =
-        "https://api.spoonacular.com/recipes/random?" +
-        new URLSearchParams({
-          apiKey: API_KEY,
-          number: 10,
-        });
+      const request = "http://localhost:8080/api/v1/recipe/random";
 
       await fetch(request)
         .then((response) => response.json())
-        .then((data) => (this.recipes = data.recipes))
+        .then((data) => (this.recipes = data))
         .catch((error) => console.log(error));
     },
     async fetchAutocompleteIngredients(text) {
@@ -28,10 +21,8 @@ export const useRecipeStore = defineStore("recipe", {
       }
 
       const request =
-        "https://api.spoonacular.com/food/ingredients/autocomplete?" +
+        "http://localhost:8080/api/v1/recipe/ingredient?" +
         new URLSearchParams({
-          apiKey: API_KEY,
-          number: 5,
           query: text,
         });
 
@@ -52,9 +43,8 @@ export const useRecipeStore = defineStore("recipe", {
       }
 
       const request =
-        "https://api.spoonacular.com/recipes/findByIngredients?" +
+        "http://localhost:8080/api/v1/recipe?" +
         new URLSearchParams({
-          apiKey: API_KEY,
           ingredients: ingredients,
         });
 
@@ -69,14 +59,7 @@ export const useRecipeStore = defineStore("recipe", {
       return state.recipes;
     },
     getAutocompleteIngredients(state) {
-      const appendImageUrl = (image) =>
-        "https://spoonacular.com/cdn/ingredients_100x100/" + image;
-      const capitalizeFirstLetter = (word) =>
-        word.charAt(0).toUpperCase() + word.slice(1);
-      return state.autocompleteIngredients.map((o) => ({
-        name: capitalizeFirstLetter(o.name),
-        image: appendImageUrl(o.image),
-      }));
+      return state.autocompleteIngredients;
     },
   },
 });

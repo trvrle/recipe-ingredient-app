@@ -14,6 +14,7 @@
       item-value="name"
       no-filter
       hide-no-data
+      :search="search"
     >
       <template v-slot:chip="{ props, item }">
         <v-chip
@@ -44,6 +45,7 @@ export default {
     return {
       model: null,
       ingredients: [],
+      search: "",
     };
   },
   mounted() {
@@ -52,10 +54,12 @@ export default {
   },
   methods: {
     onSearch(text) {
+      this.search = text;
       const { fetchAutocompleteIngredients } = useRecipeStore();
       fetchAutocompleteIngredients(text);
     },
     onChange() {
+      this.search = "";
       const { fetchFilteredRecipes } = useRecipeStore();
       fetchFilteredRecipes(this.model);
     },
