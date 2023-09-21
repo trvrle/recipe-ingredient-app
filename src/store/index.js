@@ -1,4 +1,9 @@
 import { defineStore } from "pinia";
+import axios from "axios";
+
+const axiosInstance = axios.create({
+  baseURL: process.env.VUE_APP_BASE_URL,
+});
 
 export const useRecipeStore = defineStore("recipe", {
   state: () => ({
@@ -7,10 +12,9 @@ export const useRecipeStore = defineStore("recipe", {
   }),
   actions: {
     async fetchRandomRecipes() {
-      const request = "http://localhost:8080/api/v1/recipe/random";
-
-      await fetch(request)
-        .then((response) => response.json())
+      axiosInstance
+        .get("/api/v1/recipe/random")
+        .then((response) => response.data)
         .then((data) => (this.recipes = data))
         .catch((error) => console.log(error));
     },
@@ -20,14 +24,13 @@ export const useRecipeStore = defineStore("recipe", {
         return;
       }
 
-      const request =
-        "http://localhost:8080/api/v1/recipe/ingredient?" +
-        new URLSearchParams({
-          query: text,
-        });
+      const params = new URLSearchParams({
+        query: text,
+      });
 
-      await fetch(request)
-        .then((response) => response.json())
+      axiosInstance
+        .get("/api/v1/recipe/ingredient", { params })
+        .then((response) => response.data)
         .then((data) => (this.autocompleteIngredients = data))
         .catch((error) => console.log(error));
     },
@@ -42,14 +45,13 @@ export const useRecipeStore = defineStore("recipe", {
         ingredients += query[key] + ",";
       }
 
-      const request =
-        "http://localhost:8080/api/v1/recipe?" +
-        new URLSearchParams({
-          ingredients: ingredients,
-        });
+      const params = new URLSearchParams({
+        ingredients: ingredients,
+      });
 
-      await fetch(request)
-        .then((response) => response.json())
+      axiosInstance
+        .get("/api/v1/recipe", { params })
+        .then((response) => response.data)
         .then((data) => (this.recipes = data))
         .catch((error) => console.log(error));
     },
