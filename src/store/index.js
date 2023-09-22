@@ -12,9 +12,9 @@ export const useRecipeStore = defineStore("recipe", {
   }),
   actions: {
     async fetchRandomRecipes() {
-      axiosInstance
-        .get("/api/v1/recipe/random")
-        .then((response) => response.data)
+      const request = process.env.VUE_APP_BASE_URL + "/api/v1/recipe/random";
+      await fetch(request)
+        .then((response) => response.json())
         .then((data) => (this.recipes = data))
         .catch((error) => console.log(error));
     },
